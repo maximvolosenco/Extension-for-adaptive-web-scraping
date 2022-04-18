@@ -1,0 +1,1 @@
+# Extension-for-adaptive-web-scraping
