@@ -10,7 +10,7 @@ namespace Adaptive.Data
         public AdaptiveContext(DbContextOptions<AdaptiveContext> options) : base(options) { }
 
         public virtual DbSet<User> Users { get; set; }
-
+        public virtual DbSet<Review> Reviews { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

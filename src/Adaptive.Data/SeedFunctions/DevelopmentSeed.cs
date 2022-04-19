@@ -17,6 +17,11 @@ namespace Adaptive.Data.SeedFunctions
             var user3 = CreateUser(context, "fakeusernr3@gmail.com");
 
             context.SaveChanges();
+
+            var review1 = CreateReview(context, 4, "Good enough");
+            var review2 = CreateReview(context, 3, "so so");
+
+            context.SaveChanges();
         }
 
         private User CreateUser(
@@ -31,6 +36,22 @@ namespace Adaptive.Data.SeedFunctions
             context.Users.Add(user);
 
             return user;
+        }
+
+        private Review CreateReview(
+            AdaptiveContext context,
+            int score,
+            string description)
+        {
+            Review review = new Review
+            {
+                Score = score,
+                Description = description
+            };
+
+            context.Reviews.Add(review);
+
+            return review;
         }
     }
 }
