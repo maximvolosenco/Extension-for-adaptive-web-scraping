@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Adaptive.Data.SeedFunctions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,11 @@ namespace Adaptive.Data.DbInitializer
     public class DbInitializer : IDbInitializer
     {
         private readonly IServiceScopeFactory _scopeFactory;
-
+        private readonly DevelopmentSeed _developmentSeed;
         public DbInitializer(IServiceScopeFactory scopeFactory)
         {
             _scopeFactory = scopeFactory;
+            _developmentSeed = new DevelopmentSeed();
         }
 
         public void Initialize()
@@ -26,9 +28,9 @@ namespace Adaptive.Data.DbInitializer
                 {
                     context.Database.Migrate();
 
-                    //#if DEBUG
-                    //DevelopmentSeed.Seed(context);
-                    //#endif
+#if DEBUG
+                    _developmentSeed.Seed(context);
+#endif
                 }
                 catch (Exception)
                 {
