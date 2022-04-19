@@ -14,9 +14,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Configure EF core  
-builder.Services.AddScoped<IDbInitializer, DbInitializer>();
-builder.Services.AddDbContext<AdaptiveContext>(options => options.UseSqlServer("Data Source=.;Initial Catalog=AdaptiveDb;Integrated Security=True"));
+builder.Services.AddDbContext<AdaptiveContext>(options => 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
 
@@ -29,6 +30,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//IServiceScopeFactory? scopeFactory = app.
+ActivatorUtilities.CreateInstance<DbInitializer>
+    (app.Services).Initialize();
+
 
 //app.UseHttpsRedirection();
 
