@@ -2,9 +2,9 @@
 
 namespace Adaptive.DataObjects
 {
-    public class User
+    public class User : Entity
     {
         [MaxLength(250)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
     }
 }
