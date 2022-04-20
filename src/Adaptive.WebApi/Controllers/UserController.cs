@@ -12,14 +12,14 @@ namespace Adaptive.WebApi.Controllers
     {
         public UserController(IUnitOfWork database, IMapper mapper) : base(database, mapper) {}
 
-        //[HttpGet]
-        //public ActionResult<List<UserDTO>> GetUserEmail()
-        //{
-        //    var user = _database.GetRepository<User>()
-        //        .GetList(selector: user => _mapper.Map<UserDTO>(user)).ToList();
+        [HttpGet]
+        public ActionResult<string> GetUserInfo()
+        {
+            //var user = _database.GetRepository<User>()
+            //    .GetList(selector: user => _mapper.Map<UserDTO>(user)).ToList();
 
-        //    return user;
-        //}
+            return "this is response from back-end :D";
+        }
 
         [HttpPost]
         public ActionResult<UserDTO> PostUserInfo([FromBody] ScrapeInfoDTO scrapeInfo)

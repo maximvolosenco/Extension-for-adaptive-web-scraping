@@ -11,5 +11,6 @@
       "16": "logo.png",
       "48": "logo.png",
       "128": "logo.png"
-  }
+  },
+  "host_permissions": ["https://localhost:7000/*"]
 }
