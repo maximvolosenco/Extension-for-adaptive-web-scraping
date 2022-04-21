@@ -5,9 +5,17 @@ VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adaptive.WebApi", "Adaptive.WebApi\Adaptive.WebApi.csproj", "{330E9CB0-4CF9-4179-9259-0DD18C61F0A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adaptive.Data", "Adaptive.Data\Adaptive.Data.csproj", "{9DFDDED6-89C3-4EB5-8C13-548B02D18E06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adaptive.Data", "Adaptive.Data\Adaptive.Data.csproj", "{9DFDDED6-89C3-4EB5-8C13-548B02D18E06}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6DC89C25-62C4-4AF7-BFF3-4939ACC4E8F9} = {6DC89C25-62C4-4AF7-BFF3-4939ACC4E8F9}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adaptive.DataObjects", "Adaptive.DataObjects\Adaptive.DataObjects.csproj", "{6DC89C25-62C4-4AF7-BFF3-4939ACC4E8F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adaptive.DataObjects", "Adaptive.DataObjects\Adaptive.DataObjects.csproj", "{6DC89C25-62C4-4AF7-BFF3-4939ACC4E8F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0EB4B2F6-E561-4A1A-AA44-7CACF24F0326}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
