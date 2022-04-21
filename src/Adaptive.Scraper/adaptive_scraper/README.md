@@ -1,4 +1,4 @@
-adaptive_scraper
+gateway
 =====
 
 An OTP application

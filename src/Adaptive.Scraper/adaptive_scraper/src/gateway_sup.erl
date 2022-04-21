@@ -1,9 +1,9 @@
 %%%-------------------------------------------------------------------
-%% @doc adaptive_scraper top level supervisor.
+%% @doc gateway top level supervisor.
 %% @end
 %%%-------------------------------------------------------------------
 
--module(adaptive_scraper_sup).
+-module(gateway_sup).
 
 -behaviour(supervisor).
 
@@ -26,9 +26,23 @@ start_link() ->
 %%                  type => worker(),       % optional
 %%                  modules => modules()}   % optional
 init([]) ->
-    SupFlags = #{strategy => one_for_all,
-                 intensity => 0,
-                 period => 1},
+    MaxRestart = 2,
+    MaxTime = 100,
+    SupFlags = #{
+        strategy => one_for_all,
+        intensity => MaxRestart, 
+        period => MaxTime
+    },
+
+    % PageScraper = #{
+    %     id => page_scraper,
+    %     start => {page_scraper, start_link, []},
+    %     restart => permanent, 
+    %     shutdown => 2000, 
+    %     type => worker,
+    %     modules => [page_scraper]
+    % },
+    
     ChildSpecs = [],
     {ok, {SupFlags, ChildSpecs}}.
 
