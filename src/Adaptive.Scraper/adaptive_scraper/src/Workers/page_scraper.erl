@@ -1,17 +1,25 @@
 -module(page_scraper).
 
--export([get_cache/1]).
+-export([process_html/2, download_web_page/1, start_link/0, init/1]).
 
-get_cache(HandlerName) ->
-    Method = post,
-    URL = "http://localhost:8081/server_get_cache",
+
+start_link() ->
+    gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
+
+init([]) ->
+    io:format("~p: ~p~n", ["Filter", self()]),
+    {ok, []}.
+
+download_web_page(Url) ->
+    Method = get,
+    % URL = "http://localhost:8081/server_get_cache",
     Header = [],
-    Type = "application/json",
-    BodyString = "{\"rest\":" ++ HandlerName  ++ "}",
-    Body =  list_to_binary(BodyString),
+    Type = [], %"application/json",
+    % BodyString = "{\"rest\":" ++ HandlerName  ++ "}",
+    % Body =  list_to_binary(BodyString),
     HTTPOptions = [],
     Options = [],
-    case httpc:request(Method, {URL, Header, Type, Body}, HTTPOptions, Options) of
+    case httpc:request(Method, {Url, Header}, HTTPOptions, Options) of
         {ok, {_,_,Bodys}}-> 
             io:format("receive body:~p~n", [Bodys]),
             Bodys;
@@ -19,3 +27,7 @@ get_cache(HandlerName) ->
             io:format("error cause ~p~n",[Reason]),
             error  
         end.
+
+process_html(Url, ListOfTags) ->
+    HtmlPage = download_web_page(Url),
+    io:format("~p: ~p~n", ["Filter", HtmlPage]).
