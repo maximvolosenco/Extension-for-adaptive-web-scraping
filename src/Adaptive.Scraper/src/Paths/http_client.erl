@@ -64,7 +64,7 @@ from_json(Req, State) ->
     Url = binary_to_list(BinaryUrl),
     % As a variant return estimated time to the client because now code 204 is returned
     % Result = {true, <<"url/", Url/binary>>},
-    page_scraper:download_web_page(Url),
+    server:download_web_page(Url),
     {true, Req, State}.
 
 json_encode(Answer) ->

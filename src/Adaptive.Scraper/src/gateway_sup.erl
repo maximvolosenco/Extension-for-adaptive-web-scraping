@@ -34,16 +34,34 @@ init([]) ->
         period => MaxTime
     },
 
-    PageScraper = #{
-        id => page_scraper,
-        start => {page_scraper, start_link, []},
+    Server = #{
+        id => server,
+        start => {server, start_link, []},
         restart => permanent, 
         shutdown => 2000, 
         type => worker,
-        modules => [page_scraper]
+        modules => [server]
     },
 
-    ChildSpecs = [PageScraper],
+    Crawler = #{
+        id => crawler,
+        start => {crawler, start_link, []},
+        restart => permanent, 
+        shutdown => 2000, 
+        type => worker,
+        modules => [crawler]
+    },
+
+    Scraper = #{
+        id => scraper,
+        start => {scraper, start_link, []},
+        restart => permanent, 
+        shutdown => 2000, 
+        type => worker,
+        modules => [scraper]
+    },
+
+    ChildSpecs = [Server, Crawler, Scraper],
     {ok, {SupFlags, ChildSpecs}}.
 
 %% internal functions
