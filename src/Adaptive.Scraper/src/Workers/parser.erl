@@ -1,4 +1,4 @@
--module(scraper).
+-module(parser).
 
 -export([start_link/0, init/1]).
 

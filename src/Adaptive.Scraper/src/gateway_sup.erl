@@ -43,25 +43,24 @@ init([]) ->
         modules => [server]
     },
 
-    Crawler = #{
-        id => crawler,
-        start => {crawler, start_link, []},
+    CrawlerPoolSupervisor = #{
+        id => crawler_pool_sup,
+        start => {crawler_pool_sup, start_link, [crawler]},
+        restart => permanent, 
+        shutdown => 2000, 
+        type => supervisor,
+        modules => [crawler_pool_sup]
+    },
+
+    CrawlerQueue = #{
+        id => crawler_queue,
+        start => {crawler_queue, start_link, []},
         restart => permanent, 
         shutdown => 2000, 
         type => worker,
-        modules => [crawler]
-    },
-
-    Scraper = #{
-        id => scraper,
-        start => {scraper, start_link, []},
-        restart => permanent, 
-        shutdown => 2000, 
-        type => worker,
-        modules => [scraper]
-    },
-
-    ChildSpecs = [Server, Crawler, Scraper],
+        modules => [crawler_queue]
+        },
+    ChildSpecs = [CrawlerPoolSupervisor, CrawlerQueue, Server],
     {ok, {SupFlags, ChildSpecs}}.
 
 %% internal functions

@@ -13,7 +13,7 @@ start(_StartType, _StartArgs) ->
     Routes = [{
         '_',
         [
-            {"/send_data", http_client, [{op, create}]}
+            {"/send_data", endpoint, [{op, create}]}
             % {"/[:name]", server, []},
             % {"/server_get_all_chats", server_get_all_chats, []},
             % {"/server_get_all_joined_chats", server_get_all_joined_chats, []},

@@ -1,5 +1,4 @@
 -module(server).
-
 -export([process_html/2, download_web_page/1, start_link/0, init/1, start_scraper/5]).
 
 
@@ -21,7 +20,7 @@ download_web_page(Url) ->
     case httpc:request(Method, {Url, Header}, HTTPOptions, Options) of
         {ok, {_,_,Bodys}}-> 
             % io:format("receive body:~p~n", [Bodys]),
-            Result = start_scraper("<div>", Bodys),
+            % Result = start_scraper("<div>", Bodys),
             Bodys;
         {error, Reason}->
             io:format("error cause ~p~n",[Reason]),

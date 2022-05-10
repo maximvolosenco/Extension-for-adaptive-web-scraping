@@ -1,9 +1,10 @@
--module(http_client).
+-module(endpoint).
 
 -export([init/2]).
 -export([service_available/2, allowed_methods/2, content_types_provided/2, content_types_accepted/2]).
 -export([to_json/2, from_json/2]).
 init(Req, State) ->
+    
     % io:format("~p: ~p~n", ["Request:", Req]),
     % Body = <<"Hello World">>,
     % Reply = cowboy_req:reply(200, #{
@@ -59,12 +60,27 @@ from_json(Req, State) ->
     {ok, Data, _} = cowboy_req:read_body(Req),
     DecodedJson = json_decode(Data),
     #{
-        <<"url">> := BinaryUrl
+        <<"allowed_domains">> := BinaryAllowedDomains,
+        <<"start_url">> := BinaryUrl,
+        <<"links_to_follow">> := BinaryLinksToFollow,
+        <<"links_to_parse">> := BinaryLinksToParse,
+        <<"tags">> := BinaryTags
     } = DecodedJson,
-    Url = binary_to_list(BinaryUrl),
+    AllowedDomains = binary_to_list(BinaryAllowedDomains),
+    StartUrl = binary_to_list(BinaryUrl),
+    LinksToFollow = binary_to_list(BinaryLinksToFollow),
+    LinksToParse = binary_to_list(BinaryLinksToParse),
+    % Tags = binary_to_list(BinaryTags),
+    crawler_queue:send_message(
+        {
+            start_crawling,
+            [AllowedDomains, StartUrl, LinksToFollow, LinksToParse]
+        }
+    ),
+    % crawler:send_message([AllowedDomains, StartUrl, LinksToFollow, LinksToParse], ),
     % As a variant return estimated time to the client because now code 204 is returned
     % Result = {true, <<"url/", Url/binary>>},
-    server:download_web_page(Url),
+    % server:download_web_page(Url),
     {true, Req, State}.
 
 json_encode(Answer) ->
