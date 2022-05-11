@@ -1,11 +1,12 @@
-{application, adaptive_scraper,
+{application, gateway,
  [{description, "An OTP application"},
   {vsn, "0.1.0"},
   {registered, []},
-  {mod, {adaptive_scraper_app, []}},
+  {mod, {gateway_app, []}},
   {applications,
    [kernel,
-    stdlib
+    stdlib,
+    cowboy
    ]},
   {env,[]},
   {modules, []},
