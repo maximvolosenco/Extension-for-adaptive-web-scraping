@@ -1,11 +1,11 @@
 <template>
-  <div class="main_app">
-    <h2>Gne List</h2>
+  <div>
+    <!-- <h2>Selector</h2>
     <el-form :inline="true">
       <el-form-item label="Name">
         <el-input type="text" v-model="component_name"></el-input>
       </el-form-item>
-    </el-form>
+    </el-form> -->
     <el-button type="primary" @click="start">start crawling</el-button>
   </div>
 </template>

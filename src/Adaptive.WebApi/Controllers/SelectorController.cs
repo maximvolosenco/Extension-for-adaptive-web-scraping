@@ -8,25 +8,23 @@ namespace Adaptive.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UserController : BaseController
+    public class SelectorController : BaseController
     {
-        public UserController(IUnitOfWork database, IMapper mapper) : base(database, mapper) {}
+        public SelectorController(IUnitOfWork database, IMapper mapper) : base(database, mapper) {}
 
         [HttpGet]
         public ActionResult<string> GetUserInfo()
         {
-            //var user = _database.GetRepository<User>()
-            //    .GetList(selector: user => _mapper.Map<UserDTO>(user)).ToList();
 
             return "this is response from back-end :D";
         }
 
         [HttpPost]
-        public ActionResult<UserDTO> PostUserInfo([FromBody] ScrapeInfoDTO scrapeInfo)
+        public ActionResult<UserDTO> PostSelectorInfo([FromBody] SelectorInfoDTO scrapeInfo)
         {            
             User userToDb = new User
             {
-                Email = scrapeInfo.user.Email,
+                Email = scrapeInfo.Email,
             };
 
             _database.GetRepository<User>().Insert(userToDb);

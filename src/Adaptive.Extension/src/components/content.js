@@ -1,10 +1,13 @@
 /* eslint-disable */
 
 console.log('start to inject content js')
+
 var skip_class = ['select-tool-bar',
                   'done-select',
+                  'button-div',
                   'show-select-xpath',
-                  'cancel-select'
+                  'cancel-select',
+                  'input-field'                  
                 ]
 
 var selected_elements = []
@@ -143,33 +146,140 @@ function stop_finding_xpath() {
     body.removeChild(done)
 }
 function select_done() {
-    console.log('msg_to_background:', xpath_result)
+    console.log('msg_to_background:', xpath_result);
+
+    // const message_body = {
+    //     email: "ameno@gmail.com",
+    //     allowedDomains: ["https://999.md/"],
+    //     startUrl: "https://999.md/ru/list/transport/cars",
+    //     linksToFollow: ["https://999.md/ru/77579423"],
+    //     linksToParse: ["https://999.md/ru/77579423"],
+    //     tags: {
+    //         "ameno1": "ameno2",
+    //         "ameno2": "ameno3",
+    //     }
+    // }
+    // send_message_selector_info(message_body);
+    
+    // console.log(getUserInfo())
     stop_finding_xpath()    
 }
 
 function add_side_bar() {
     //Add a button in the lower left corner of the web page to refine the red box of the picker
+
+    
+
+    var modal = document.createElement('div');
+    modal.style.top = '0px'
+    modal.style.left = '0px'
+    modal.setAttribute('class', 'select-tool-bar');
+
+    var title = document.createTextNode('Adaptive');
+    
+    var div = document.createElement('div')
+    div.appendChild(title)
+
+    var allowedDomains = document.createElement('input')
+    allowedDomains.setAttribute('class', 'input-field')
+    allowedDomains.setAttribute('type', 'text')
+    allowedDomains.placeholder = 'Allowed Domains'
+    
+    var startUrl = document.createElement('input')
+    startUrl.setAttribute('class', 'input-field')
+    startUrl.setAttribute('type', 'text')
+    startUrl.placeholder = 'Start Url'
+    
+    var linksToFollow = document.createElement('input')
+    linksToFollow.setAttribute('class', 'input-field')
+    linksToFollow.setAttribute('type', 'text')
+    linksToFollow.placeholder = 'Links to follow'
+    
+    var linksToParse = document.createElement('input')
+    linksToParse.setAttribute('class', 'input-field')
+    linksToParse.setAttribute('type', 'text')
+    linksToParse.placeholder = 'Links to parse'
+    
+    var elementXpath = document.createElement('input')
+    elementXpath.setAttribute('class', 'show-select-xpath')
+    elementXpath.setAttribute('type', 'text')
+    elementXpath.placeholder = 'element Xpath'
+        
+
     var done_button = document.createElement('button')
-    var text = document.createTextNode('Submit_Test')
+    var text = document.createTextNode('Submit')
     done_button.appendChild(text)
     done_button.onclick = select_done
     done_button.setAttribute('class', 'done-select')
 
-    var input_field = document.createElement('input')
-    input_field.setAttribute('class', 'show-select-xpath')
-    input_field.setAttribute('type', 'text')
-
     var cancel_button = document.createElement('button')
-    cancel_button.appendChild(document.createTextNode('Cancel_Test'))
+    cancel_button.appendChild(document.createTextNode('Cancel'))
     cancel_button.setAttribute('class', 'cancel-select')
     cancel_button.onclick = stop_finding_xpath
 
+    var button_div = document.createElement('div');
+    button_div.setAttribute('class', 'button-div')
+    button_div.appendChild(cancel_button);
+    button_div.appendChild(done_button);
 
-    var div = document.createElement('div')
-    div.appendChild(input_field)
-    div.appendChild(cancel_button)
-    div.appendChild(done_button)
-    div.setAttribute('class', 'select-tool-bar')
+    modal.appendChild(div);
+    modal.appendChild(allowedDomains)
+    modal.appendChild(startUrl)
+    modal.appendChild(linksToFollow)
+    modal.appendChild(linksToParse)
+    modal.appendChild(elementXpath)
+    modal.appendChild(button_div)
+    // var div = document.createElement('div')
+    // div.appendChild(input_field)
+    // div.setAttribute('class', 'select-tool-bar')
     var body = document.getElementsByTagName('body')[0]
-    body.appendChild(div)
+    body.appendChild(modal)
 }
+
+
+// function send_message_selector_info(message) {
+//     chrome.runtime.sendMessage(message)
+// }
+
+// let backend = 'https://localhost:7000/Selector'
+
+// function send_message_selector_info(msg) {
+//     var options = {
+//         method: "post",
+//         headers: {
+//             'Accept': 'application/json',
+//             'Content-Type': 'application/json;charset=UTF-8'
+//         },
+//         body: JSON.stringify({data: msg})
+//     }
+//     chrome.storage.sync.get('backend_address', ({backend_address}) => {
+//         if (backend_address) {
+//             backend = backend_address
+//         }
+//         console.log('send data to backend: ' + backend)
+//         fetch(backend, options)
+//          .then(response => response.json())
+//          .then(response => {
+//              console.log(response)
+//          }).catch((err) => {
+//              console.log('xxxx', err)
+//          })
+//     })
+// }
+
+// function getUserInfo(){
+
+//     let response = fetch("https://localhost:7000/Selector");
+
+//     if (!response.ok) {
+//         let errorMessage = response.text();
+//         console.error('Error message: ', errorMessage);
+
+//         return errorMessage;
+//    }
+//    else {
+
+//         let data =  response.text() ;
+//         return data;
+//    }
+// }
