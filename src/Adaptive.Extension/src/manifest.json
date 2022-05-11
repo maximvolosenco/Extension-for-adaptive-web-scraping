@@ -1,0 +1,25 @@
+{
+    "manifest_version": 3,
+    "name": "Adaptive",
+    "description": "Extension for adaptive web scraping",
+    "version": "0.0.1",
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "/js/content.js"
+            ]
+        }
+    ],
+    "permissions": [
+        "activeTab", "scripting", "tabs", "storage"
+    ],
+    "host_permissions": [
+        "*://*/*"
+    ]
+}
