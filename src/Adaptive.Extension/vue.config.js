@@ -4,12 +4,12 @@ const fs = require('fs')
 // Generate pages object
 const pages = {}
 
-function getEntryFile (entryPath) {
+function getComponentFile (entryPath) {
   let files = fs.readdirSync(entryPath)
   return files
 }
 
-const chromeName = getEntryFile(path.resolve(`src/components`))
+const chromeName = getComponentFile(path.resolve(`src/components`))
 
 function getFileExtension (filename) {
   return /[.]/.exec(filename) ? /[^.]+$/.exec(filename)[0] : undefined

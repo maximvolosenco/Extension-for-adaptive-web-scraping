@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Adaptive",
     "description": "Extension for adaptive web scraping",
-    "version": "0.0.1",
+    "version": "0.0.5",
     "action": {
         "default_popup": "popup.html"
     },
@@ -13,7 +13,8 @@
             ],
             "js": [
                 "/js/content.js"
-            ]
+            ],
+            "css": ["/css/picker.css"]
         }
     ],
     "permissions": [

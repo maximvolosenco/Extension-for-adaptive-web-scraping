@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from '../views/popup.vue'
+import App from '../view/popup.vue'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
