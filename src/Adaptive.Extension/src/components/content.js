@@ -1,4 +1,6 @@
 /* eslint-disable */
+import { top_bar } from "./top_bar";
+import { component_field } from "./component_field";
 
 console.log('start to inject content js')
 
@@ -170,70 +172,84 @@ function add_side_bar() {
 
     
 
-    var modal = document.createElement('div');
-    modal.style.top = '0px'
-    modal.style.left = '0px'
-    modal.setAttribute('class', 'select-tool-bar');
+    // var modal = document.createElement('div');
+    // modal.style.top = '0px'
+    // modal.style.left = '0px'
+    // modal.setAttribute('class', 'select-tool-bar');
 
-    var title = document.createTextNode('Adaptive');
+    // var title = document.createTextNode('Adaptive');
     
-    var div = document.createElement('div')
-    div.appendChild(title)
+    // var div = document.createElement('div')
+    // div.appendChild(title)
 
-    var allowedDomains = document.createElement('input')
-    allowedDomains.setAttribute('class', 'input-field')
-    allowedDomains.setAttribute('type', 'text')
-    allowedDomains.placeholder = 'Allowed Domains'
+    // var allowedDomains = document.createElement('input')
+    // allowedDomains.setAttribute('class', 'input-field')
+    // allowedDomains.setAttribute('type', 'text')
+    // allowedDomains.placeholder = 'Allowed Domains'
     
-    var startUrl = document.createElement('input')
-    startUrl.setAttribute('class', 'input-field')
-    startUrl.setAttribute('type', 'text')
-    startUrl.placeholder = 'Start Url'
+    // var startUrl = document.createElement('input')
+    // startUrl.setAttribute('class', 'input-field')
+    // startUrl.setAttribute('type', 'text')
+    // startUrl.placeholder = 'Start Url'
     
-    var linksToFollow = document.createElement('input')
-    linksToFollow.setAttribute('class', 'input-field')
-    linksToFollow.setAttribute('type', 'text')
-    linksToFollow.placeholder = 'Links to follow'
+    // var linksToFollow = document.createElement('input')
+    // linksToFollow.setAttribute('class', 'input-field')
+    // linksToFollow.setAttribute('type', 'text')
+    // linksToFollow.placeholder = 'Links to follow'
     
-    var linksToParse = document.createElement('input')
-    linksToParse.setAttribute('class', 'input-field')
-    linksToParse.setAttribute('type', 'text')
-    linksToParse.placeholder = 'Links to parse'
+    // var linksToParse = document.createElement('input')
+    // linksToParse.setAttribute('class', 'input-field')
+    // linksToParse.setAttribute('type', 'text')
+    // linksToParse.placeholder = 'Links to parse'
     
-    var elementXpath = document.createElement('input')
-    elementXpath.setAttribute('class', 'show-select-xpath')
-    elementXpath.setAttribute('type', 'text')
-    elementXpath.placeholder = 'element Xpath'
+    // var elementXpath = document.createElement('input')
+    // elementXpath.setAttribute('class', 'show-select-xpath')
+    // elementXpath.setAttribute('type', 'text')
+    // elementXpath.placeholder = 'element Xpath'
         
 
-    var done_button = document.createElement('button')
-    var text = document.createTextNode('Submit')
-    done_button.appendChild(text)
-    done_button.onclick = select_done
-    done_button.setAttribute('class', 'done-select')
+    // var done_button = document.createElement('button')
+    // var text = document.createTextNode('Submit')
+    // done_button.appendChild(text)
+    // done_button.onclick = select_done
+    // done_button.setAttribute('class', 'done-select')
 
-    var cancel_button = document.createElement('button')
-    cancel_button.appendChild(document.createTextNode('Cancel'))
-    cancel_button.setAttribute('class', 'cancel-select')
-    cancel_button.onclick = stop_finding_xpath
+    // var cancel_button = document.createElement('button')
+    // cancel_button.appendChild(document.createTextNode('Cancel'))
+    // cancel_button.setAttribute('class', 'cancel-select')
+    // cancel_button.onclick = stop_finding_xpath
 
-    var button_div = document.createElement('div');
-    button_div.setAttribute('class', 'button-div')
-    button_div.appendChild(cancel_button);
-    button_div.appendChild(done_button);
+    // var button_div = document.createElement('div');
+    // button_div.setAttribute('class', 'button-div')
+    // button_div.appendChild(cancel_button);
+    // button_div.appendChild(done_button);
 
-    modal.appendChild(div);
-    modal.appendChild(allowedDomains)
-    modal.appendChild(startUrl)
-    modal.appendChild(linksToFollow)
-    modal.appendChild(linksToParse)
-    modal.appendChild(elementXpath)
-    modal.appendChild(button_div)
+    // modal.appendChild(div);
+    // modal.appendChild(allowedDomains)
+    // modal.appendChild(startUrl)
+    // modal.appendChild(linksToFollow)
+    // modal.appendChild(linksToParse)
+    // modal.appendChild(elementXpath)
+    // modal.appendChild(button_div)
     // var div = document.createElement('div')
     // div.appendChild(input_field)
     // div.setAttribute('class', 'select-tool-bar')
+
+
+
+    var side_bar = document.createElement("div");
+    side_bar.setAttribute("class", "side-bar");
+    
+    side_bar.append(top_bar("ameno"));
+    side_bar.append(component_field());
+
+
+
+
+
+
     var body = document.getElementsByTagName('body')[0]
-    body.appendChild(modal)
+    body.appendChild(side_bar)
 }
 
 

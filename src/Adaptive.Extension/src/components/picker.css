@@ -31,7 +31,7 @@
     width: 30%;
     background-color: grey;
 }
-.input-field {
+/* .input-field {
     width: 90%;
     margin-top: 10px;
   }
@@ -45,15 +45,128 @@
     width: 80%;
     margin: auto;
     margin-top: 90%;
-}
-/* .select-tool-bar button{
-    color: #ffffff !important;
-	-webkit-text-fill-color: #FFF !important;
-	background-color: #3276b1 !important;
-	cursor: pointer !important;
-	width:130px !important;
-} 
-
- .select-tool-bar input {
-width: 80%;
 } */
+.side-bar {
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 9999999999;
+    width: 350px;
+    height: 100%;
+    border: 0;
+    opacity: 0.92;
+    background: #888 !important;
+    box-shadow: 0 0 15px rgb(0 0 0 / 15%);
+  }
+  
+  /* top app bar */
+  .top-bar-controls {
+    background: #bbb;
+    padding: 5px;
+    height: 40px;
+  }
+  
+  .top-bar-controls-buttons {
+    display: flex;
+    justify-content: space-between;
+    height: 20px;
+  }
+  .feature-buttons {
+    width: 70%;
+  }
+  
+  .new-template-button {
+    background-image: url("https://cdn-icons-png.flaticon.com/512/1828/1828821.png");
+  }
+  
+  .done-button {
+    background-image: url("https://cdn-icons-png.flaticon.com/512/1828/1828644.png");
+  }
+  
+  .plain-button {
+    margin-right: 2%;
+    width: 11%;
+    height: 100%;
+    border-width: 0px;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 2px;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .close-button {
+    background-image: url("https://cdn-icons-png.flaticon.com/512/391/391017.png");
+    width: 25px;
+    margin-right: 0;
+  }
+  
+  .option-info-button {
+    background-image: url("https://cdn-icons-png.flaticon.com/512/7368/7368875.png");
+    opacity: 0.7;
+    width: 25px;
+    margin-right: 0;
+    margin-left: 10%;
+  }
+  
+  /* start url text and input */
+  .start-url-container {
+    padding: 3px 4px 0px 0px;
+    font-weight: bold;
+    color: #272727f5;
+  }
+  
+  /* field */
+  .field {
+    border-bottom: 1px dashed #eeeeee70;
+    padding: 5px 5px;
+  }
+  
+  .inner {
+    position: relative;
+    padding: 6px 0;
+  }
+  
+  .top {
+    margin-bottom: 4px;
+    padding-right: 11px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .input-field {
+    background-color: rgba(0, 0, 0, 0.23);
+    border-radius: 2px;
+    border: 0px;
+    outline-color: transparent;
+    color: #ffffff;
+    padding: 4px 6px;
+  }
+  .input-field-placeholder::-webkit-input-placeholder {
+    color: #bbb;
+  }
+  .input-field-field-name {
+    width: 60%;
+    margin-right: 10px;
+  }
+  
+  .field-name-button {
+    height: 24px;
+    width: 25px;
+  }
+  
+  .pick-button {
+    background-image: url("https://cdn-icons.flaticon.com/png/512/4868/premium/4868049.png?token=exp=1652631308~hmac=a9c4c0e37df43eecb5a9dc5065b76a06");
+  }
+  .reset-selector-button {
+    background-image: url("https://cdn-icons-png.flaticon.com/512/7134/7134699.png");
+  }
+  .delete-field-button {
+    background-image: url("https://cdn-icons-png.flaticon.com/512/786/786364.png");
+  }
+  
+  .input-field-xpath {
+    padding-right: 13px;
+    width: 90%;
+  }
+  
