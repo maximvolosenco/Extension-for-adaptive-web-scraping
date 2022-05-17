@@ -17,9 +17,13 @@
                 "/js/FieldList.js",
                 "/js/StartTemplate.js",
                 "/js/StartTemplateModel.js",
-                "/js/TopBar.js"
+                "/js/TopBar.js",
+                "/js/ComponentManager.js"
             ],
-            "css": ["/css/picker.css"]
+            "css": [
+                "/css/picker.css",
+                "/css/styles.css"
+            ]
         }
     ],
     "permissions": [

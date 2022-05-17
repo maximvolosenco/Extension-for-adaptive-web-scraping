@@ -3,6 +3,7 @@ import { TopBar } from "./TopBar";
 import { FieldList } from "./FieldList";
 import { StartTemplate } from "./StartTemplate";
 import { StartTemplateModel } from "./StartTemplateModel";
+import { ComponentManager } from "./ComponentManager";
 
 console.log('start to inject content js')
 
@@ -26,7 +27,9 @@ chrome.runtime.onMessage.addListener(
             "from the extension");
         if (request.command === 'Start') {
             console.log('receive command to trigger...', request)
-            start_to_find_xpath()
+            SideBar()
+            // uncomment to start find xpath
+            //start_to_find_xpath()
         }
         return true
     }
@@ -133,7 +136,7 @@ function choose_element(event) {
 
 function start_to_find_xpath(){
     selected_elements = []
-    add_side_bar()
+    SideBar()
     disable_links()
     window.onmousemove = track_mouse
     window.onmousedown = choose_element
@@ -152,32 +155,12 @@ function stop_finding_xpath() {
 function select_done() {
     console.log('msg_to_background:', xpath_result);
 
-    // const message_body = {
-    //     email: "ameno@gmail.com",
-    //     allowedDomains: ["https://999.md/"],
-    //     startUrl: "https://999.md/ru/list/transport/cars",
-    //     linksToFollow: ["https://999.md/ru/77579423"],
-    //     linksToParse: ["https://999.md/ru/77579423"],
-    //     tags: {
-    //         "ameno1": "ameno2",
-    //         "ameno2": "ameno3",
-    //     }
-    // }
-    // send_message_selector_info(message_body);
-    
-    // console.log(getUserInfo())
     stop_finding_xpath()    
 }
 
-function add_side_bar() {
+let sideBar = SideBar();
 
-    
-
-    // var side_bar = document.createElement("div");
-    // side_bar.setAttribute("class", "side-bar");
-    
-    // side_bar.append(top_bar("ameno"));
-    // side_bar.append(component_field());
+function SideBar() {
 
     let sideBar = document.createElement("div");
 
@@ -185,100 +168,47 @@ function add_side_bar() {
     sideBar.id = "adaptive-side-bar";
     sideBar.appendChild(TopBar());
 
-    let startTempalte = StartTemplate(handleNextButton);
-    sideBar.appendChild(startTempalte);
+    ComponentManager.startTemplate = StartTemplate(handleNextButton);
+    sideBar.appendChild(ComponentManager.startTemplate);
 
     let body = document.getElementsByTagName("body")[0];
     body.appendChild(sideBar);
 
     handleTemplateListeners();
 
-
-
-
-
-    // var body = document.getElementsByTagName('body')[0]
-    // body.appendChild(side_bar)
+    return sideBar;
 }
 
 
 function handleNextButton() {
     let side_bar_elem = document.getElementById("adaptive-side-bar");
-    side_bar_elem.removeChild(startTempalte);
+    side_bar_elem.removeChild(ComponentManager.startTemplate);
   
     sideBar.appendChild(FieldList());
-    console.log(startTempalte);
   }
   
-  function handleTemplateListeners() {
+function handleTemplateListeners() {
     let startUrlContainer = document.querySelector("#start-url-field-0");
-  
+
     startUrlContainer.addEventListener("change", function (element) {
-      StartTemplateModel.start_url = element.target.value;
+        StartTemplateModel.start_url = element.target.value;
     });
-  
+
     let pageContainer = document.querySelector("#page-links-container");
-  
+
     pageContainer.addEventListener("change", function (element) {
-      if (element.target.classList.contains("input-field-template")) {
+        if (element.target.classList.contains("input-field-template")) {
         StartTemplateModel.links_to_follow[element.target.id] =
-          element.target.value;
-      }
+            element.target.value;
+        }
     });
-  
+
     let parseContainer = document.querySelector("#parse-links-container");
-  
+
     parseContainer.addEventListener("change", function (element) {
-      if (element.target.classList.contains("input-field-template")) {
+        if (element.target.classList.contains("input-field-template")) {
         StartTemplateModel.links_to_parse[element.target.id] =
-          element.target.value;
-      }
+            element.target.value;
+        }
     });
-  }
-  
-// function send_message_selector_info(message) {
-//     chrome.runtime.sendMessage(message)
-// }
-
-// let backend = 'https://localhost:7000/Selector'
-
-// function send_message_selector_info(msg) {
-//     var options = {
-//         method: "post",
-//         headers: {
-//             'Accept': 'application/json',
-//             'Content-Type': 'application/json;charset=UTF-8'
-//         },
-//         body: JSON.stringify({data: msg})
-//     }
-//     chrome.storage.sync.get('backend_address', ({backend_address}) => {
-//         if (backend_address) {
-//             backend = backend_address
-//         }
-//         console.log('send data to backend: ' + backend)
-//         fetch(backend, options)
-//          .then(response => response.json())
-//          .then(response => {
-//              console.log(response)
-//          }).catch((err) => {
-//              console.log('xxxx', err)
-//          })
-//     })
-// }
-
-// function getUserInfo(){
-
-//     let response = fetch("https://localhost:7000/Selector");
-
-//     if (!response.ok) {
-//         let errorMessage = response.text();
-//         console.error('Error message: ', errorMessage);
-
-//         return errorMessage;
-//    }
-//    else {
-
-//         let data =  response.text() ;
-//         return data;
-//    }
-// }
+}
