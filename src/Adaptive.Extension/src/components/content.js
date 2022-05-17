@@ -1,6 +1,8 @@
 /* eslint-disable */
-import { top_bar } from "./top_bar";
-import { component_field } from "./component_field";
+import { TopBar } from "./TopBar";
+import { FieldList } from "./FieldList";
+import { StartTemplate } from "./StartTemplate";
+import { StartTemplateModel } from "./StartTemplateModel";
 
 console.log('start to inject content js')
 
@@ -168,91 +170,72 @@ function select_done() {
 }
 
 function add_side_bar() {
-    //Add a button in the lower left corner of the web page to refine the red box of the picker
 
     
 
-    // var modal = document.createElement('div');
-    // modal.style.top = '0px'
-    // modal.style.left = '0px'
-    // modal.setAttribute('class', 'select-tool-bar');
-
-    // var title = document.createTextNode('Adaptive');
+    // var side_bar = document.createElement("div");
+    // side_bar.setAttribute("class", "side-bar");
     
-    // var div = document.createElement('div')
-    // div.appendChild(title)
+    // side_bar.append(top_bar("ameno"));
+    // side_bar.append(component_field());
 
-    // var allowedDomains = document.createElement('input')
-    // allowedDomains.setAttribute('class', 'input-field')
-    // allowedDomains.setAttribute('type', 'text')
-    // allowedDomains.placeholder = 'Allowed Domains'
-    
-    // var startUrl = document.createElement('input')
-    // startUrl.setAttribute('class', 'input-field')
-    // startUrl.setAttribute('type', 'text')
-    // startUrl.placeholder = 'Start Url'
-    
-    // var linksToFollow = document.createElement('input')
-    // linksToFollow.setAttribute('class', 'input-field')
-    // linksToFollow.setAttribute('type', 'text')
-    // linksToFollow.placeholder = 'Links to follow'
-    
-    // var linksToParse = document.createElement('input')
-    // linksToParse.setAttribute('class', 'input-field')
-    // linksToParse.setAttribute('type', 'text')
-    // linksToParse.placeholder = 'Links to parse'
-    
-    // var elementXpath = document.createElement('input')
-    // elementXpath.setAttribute('class', 'show-select-xpath')
-    // elementXpath.setAttribute('type', 'text')
-    // elementXpath.placeholder = 'element Xpath'
-        
+    let sideBar = document.createElement("div");
 
-    // var done_button = document.createElement('button')
-    // var text = document.createTextNode('Submit')
-    // done_button.appendChild(text)
-    // done_button.onclick = select_done
-    // done_button.setAttribute('class', 'done-select')
+    sideBar.setAttribute("class", "side-bar");
+    sideBar.id = "adaptive-side-bar";
+    sideBar.appendChild(TopBar());
 
-    // var cancel_button = document.createElement('button')
-    // cancel_button.appendChild(document.createTextNode('Cancel'))
-    // cancel_button.setAttribute('class', 'cancel-select')
-    // cancel_button.onclick = stop_finding_xpath
+    let startTempalte = StartTemplate(handleNextButton);
+    sideBar.appendChild(startTempalte);
 
-    // var button_div = document.createElement('div');
-    // button_div.setAttribute('class', 'button-div')
-    // button_div.appendChild(cancel_button);
-    // button_div.appendChild(done_button);
+    let body = document.getElementsByTagName("body")[0];
+    body.appendChild(sideBar);
 
-    // modal.appendChild(div);
-    // modal.appendChild(allowedDomains)
-    // modal.appendChild(startUrl)
-    // modal.appendChild(linksToFollow)
-    // modal.appendChild(linksToParse)
-    // modal.appendChild(elementXpath)
-    // modal.appendChild(button_div)
-    // var div = document.createElement('div')
-    // div.appendChild(input_field)
-    // div.setAttribute('class', 'select-tool-bar')
-
-
-
-    var side_bar = document.createElement("div");
-    side_bar.setAttribute("class", "side-bar");
-    
-    side_bar.append(top_bar("ameno"));
-    side_bar.append(component_field());
+    handleTemplateListeners();
 
 
 
 
 
-
-    var body = document.getElementsByTagName('body')[0]
-    body.appendChild(side_bar)
+    // var body = document.getElementsByTagName('body')[0]
+    // body.appendChild(side_bar)
 }
 
 
+function handleNextButton() {
+    let side_bar_elem = document.getElementById("adaptive-side-bar");
+    side_bar_elem.removeChild(startTempalte);
+  
+    sideBar.appendChild(FieldList());
+    console.log(startTempalte);
+  }
+  
+  function handleTemplateListeners() {
+    let startUrlContainer = document.querySelector("#start-url-field-0");
+  
+    startUrlContainer.addEventListener("change", function (element) {
+      StartTemplateModel.start_url = element.target.value;
+    });
+  
+    let pageContainer = document.querySelector("#page-links-container");
+  
+    pageContainer.addEventListener("change", function (element) {
+      if (element.target.classList.contains("input-field-template")) {
+        StartTemplateModel.links_to_follow[element.target.id] =
+          element.target.value;
+      }
+    });
+  
+    let parseContainer = document.querySelector("#parse-links-container");
+  
+    parseContainer.addEventListener("change", function (element) {
+      if (element.target.classList.contains("input-field-template")) {
+        StartTemplateModel.links_to_parse[element.target.id] =
+          element.target.value;
+      }
+    });
+  }
+  
 // function send_message_selector_info(message) {
 //     chrome.runtime.sendMessage(message)
 // }
