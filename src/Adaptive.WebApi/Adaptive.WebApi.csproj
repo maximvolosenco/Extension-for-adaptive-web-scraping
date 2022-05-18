@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Adaptive.Data\Adaptive.Data.csproj" />
+    <ProjectReference Include="..\Adaptive.SMTP\Adaptive.SMTP.csproj" />
   </ItemGroup>
 
 </Project>

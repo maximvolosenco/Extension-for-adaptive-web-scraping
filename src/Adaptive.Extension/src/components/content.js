@@ -20,6 +20,8 @@ var selected_elements = []
 var xpath_result = ''
 var css_result = ''
 
+let sideBar = null;
+
 chrome.runtime.onMessage.addListener(
     function(request, sender) {
         console.log(sender.tab ?
@@ -27,7 +29,7 @@ chrome.runtime.onMessage.addListener(
             "from the extension");
         if (request.command === 'Start') {
             console.log('receive command to trigger...', request)
-            SideBar()
+            sideBar = SideBar()
             // uncomment to start find xpath
             //start_to_find_xpath()
         }
@@ -158,7 +160,6 @@ function select_done() {
     stop_finding_xpath()    
 }
 
-let sideBar = SideBar();
 
 function SideBar() {
 
