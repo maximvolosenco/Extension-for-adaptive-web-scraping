@@ -213,10 +213,9 @@ function handleDeleteFieldButtonParseLink(fieldID) {
 }
 
 function ValidateInput() {
-  if (minPageLinksToCount > 0 && minParseLinksToCount > 0) {
+  if (minPageLinksToCount > 0 || minParseLinksToCount > 0) {
     return false;
   }
-
   const linksToFollowDict = StartTemplateModel.links_to_follow;
   let linksToFollow = [];
 

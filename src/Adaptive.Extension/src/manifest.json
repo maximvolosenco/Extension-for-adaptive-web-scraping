@@ -12,7 +12,8 @@
                 "<all_urls>"
             ],
             "js": [
-                "/js/content.js",
+                "/js/index.js",
+                "/js/XpathManager.js",
                 "/js/FieldButtons.js",
                 "/js/FieldList.js",
                 "/js/StartTemplate.js",

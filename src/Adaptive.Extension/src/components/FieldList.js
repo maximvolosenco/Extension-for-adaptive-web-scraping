@@ -60,7 +60,6 @@ function ComponentField() {
 
 function handlePickButton() {
   fieldIndex += 1;
-  console.log(fieldIndex);
   fieldList.appendChild(ComponentField());
 }
 
@@ -72,7 +71,6 @@ function handleDeleteFieldButton(fieldID) {
   const fieldToRemove = document.getElementById(fieldID);
 
   fieldList.removeChild(fieldToRemove);
-  console.log("fielndID: " + fieldID);
 }
 
 function handleResetSelectorButton(fieldID) {
