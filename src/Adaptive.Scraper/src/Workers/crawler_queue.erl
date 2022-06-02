@@ -29,7 +29,7 @@ handle_cast({start_crawling, Message}, {QueueOfLinks, ListChildPids}) ->
 handle_cast({push_link_to_queue, Links}, {QueueOfLinks, ListChildPids}) ->
     % NewQueueOfLinks = push_to_queue(Links, QueueOfLinks),
     NewQueueOfLinks = lists:append(QueueOfLinks, Links),
-    io:format("Obtained Links ~p~n",[NewQueueOfLinks]),
+    % io:format("Obtained Links ~p~n",[NewQueueOfLinks]),
     % Send empty brackets because queue of links becomes empty
     {noreply, {NewQueueOfLinks, ListChildPids}};
 
@@ -47,9 +47,13 @@ handle_cast({worker_free, WorkerPid}, {QueueOfLinks, ListChildPids}) when length
     % NewQueueOfLinks = drop_last_item(QueueOfLinks),
     {noreply, {[], ListChildPids}};
 
+handle_cast({worker_free, WorkerPid}, {QueueOfLinks, ListChildPids}) ->
+    crawler:send_message(wait_for_link, WorkerPid),
+    {noreply, {QueueOfLinks, ListChildPids}};
+
 handle_cast(Message, State) ->
-    io:format("Message:= ~p~n",[Message]),
-    io:format("State:= ~p~n",[State]),
+    % io:format("Message:= ~p~n",[Message]),
+    % io:format("State:= ~p~n",[State]),
     {noreply, State}.
 
 drop_last_item(QueueOfLinks) when length(QueueOfLinks) > 0 ->
@@ -57,7 +61,6 @@ drop_last_item(QueueOfLinks) when length(QueueOfLinks) > 0 ->
 
 drop_last_item(QueueOfLinks) ->
     [].
-
 
 push_to_queue(Message, QueueOfLinks) ->
     [_, StartUrl, _, _] = Message,
@@ -70,4 +73,3 @@ setup_rules(ListChildPids, Message) when length(ListChildPids) > 0 ->
 
 setup_rules(_, _) ->
     ok.
-

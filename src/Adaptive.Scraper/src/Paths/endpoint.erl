@@ -70,11 +70,16 @@ from_json(Req, State) ->
     StartUrl = binary_to_list(BinaryUrl),
     LinksToFollow = binary_to_list(BinaryLinksToFollow),
     LinksToParse = binary_to_list(BinaryLinksToParse),
-    % Tags = binary_to_list(BinaryTags),
     crawler_queue:send_message(
         {
             start_crawling,
             [AllowedDomains, StartUrl, LinksToFollow, LinksToParse]
+        }
+    ),
+    parser_queue:send_message(
+        {
+            setup_rules_parser,
+            BinaryTags
         }
     ),
     % crawler:send_message([AllowedDomains, StartUrl, LinksToFollow, LinksToParse], ),

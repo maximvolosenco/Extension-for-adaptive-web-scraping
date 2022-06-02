@@ -52,6 +52,15 @@ init([]) ->
         modules => [crawler_pool_sup]
     },
 
+    ParserPoolSupervisor = #{
+        id => parser_pool_sup,
+        start => {parser_pool_sup, start_link, [parser]},
+        restart => permanent, 
+        shutdown => 2000, 
+        type => supervisor,
+        modules => [parser_pool_sup]
+    },
+
     CrawlerQueue = #{
         id => crawler_queue,
         start => {crawler_queue, start_link, []},
@@ -60,7 +69,17 @@ init([]) ->
         type => worker,
         modules => [crawler_queue]
         },
-    ChildSpecs = [CrawlerPoolSupervisor, CrawlerQueue, Server],
+
+    ParserQueue = #{
+        id => parser_queue,
+        start => {parser_queue, start_link, []},
+        restart => permanent, 
+        shutdown => 2000, 
+        type => worker,
+        modules => [parser_queue]
+    },
+
+    ChildSpecs = [ParserPoolSupervisor, CrawlerPoolSupervisor, CrawlerQueue, ParserQueue, Server],
     {ok, {SupFlags, ChildSpecs}}.
 
 %% internal functions

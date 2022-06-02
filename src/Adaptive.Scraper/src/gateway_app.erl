@@ -14,12 +14,6 @@ start(_StartType, _StartArgs) ->
         '_',
         [
             {"/send_data", endpoint, [{op, create}]}
-            % {"/[:name]", server, []},
-            % {"/server_get_all_chats", server_get_all_chats, []},
-            % {"/server_get_all_joined_chats", server_get_all_joined_chats, []},
-            % {"/server_get_all_messages", server_get_all_messages, []},
-            % {"/server_get_members_of_chat", server_get_members_of_chat, []},
-            % {"/server_post_create_chat", server_post_create_chat, []}
         ]
     }],
     Dispatch = cowboy_router:compile(Routes),

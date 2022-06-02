@@ -1,4 +1,4 @@
--module(crawler_pool_sup).
+-module(parser_pool_sup).
 
 -behaviour(supervisor).
 
@@ -20,16 +20,16 @@ init(TypeOfPool) ->
         period => MaxTime
     },
     
-    Crawler = #{
-        id => crawler,
-	    start => {crawler, start_link, []},
+    Parser = #{
+        id => parser,
+	    start => {parser, start_link, []},
 	    restart => permanent, 
         shutdown => 2000,
         type => worker,
-	    modules => [crawler]
+	    modules => [parser]
     },
     
-    ChildSpecs = [Crawler],
+    ChildSpecs = [Parser],
     {ok, {SupFlags, ChildSpecs}}.
 
 add_new_child(WorkerId) ->
