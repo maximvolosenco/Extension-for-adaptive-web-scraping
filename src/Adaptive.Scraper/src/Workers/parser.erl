@@ -10,7 +10,10 @@ init([]) ->
     MapToSend = #{},
     % io:format("parser:= ~p~n", [self()]),
     {ok, 
-            Tags
+            {
+                Tags,
+                MapToSend
+            }
     }.
 
 send_message(Message, Pid) ->
@@ -19,34 +22,43 @@ send_message(Message, Pid) ->
 handle_cast({set_parsing_rules, RecievedTags}, _) ->
     Tags = RecievedTags,
     % io:format("Parser PID:= ~p~n",[self()]),
-    {noreply, Tags};
+    {noreply, {Tags, #{}}};
 
-handle_cast({send_link, CurrentLink}, Tags) ->
-    io:format("CurrentLink:= ~p~n",[CurrentLink]),
+handle_cast({send_link, CurrentLink}, {Tags, RecievedMap}) ->
+    % io:format("CurrentLink:= ~p~n",[CurrentLink]),
     Body = download_web_page(CurrentLink),
-    % io:format("Body:= ~p~n",[Tags]),
+    % io:format("Body:= ~p~n",[Body]),
     % io:format("Keys:= ~p~n",[maps:keys(Tags)]),
     TagsIterator = maps:iterator(Tags),
-    MapToSend = extract_data_by_tags(Body, TagsIterator, #{}),
+    MapToSend = extract_data_by_tags(Body, TagsIterator, RecievedMap),
+    batcher:send_message(MapToSend),
     % batcher:send_message({push_map, MapToSend}),
     % parser_queue:send_message({worker_free, self()}),
-    {noreply, Tags}.
+    {noreply, {Tags, MapToSend}}.
 
-extract_data_by_tags(HtmlPage, TagsIterator, MapToSend) when HtmlPage =/= error, TagsIterator =/= none ->
+extract_data_by_tags(HtmlPage, TagsIterator, RecievedMap) when HtmlPage =/= error, TagsIterator =/= none ->
     {Key, BinaryXpath, Iterator} = maps:next(TagsIterator),
-
+    % io:format("Data:= ~p~n",[BinaryXpath]),
     Xpath = binary_to_list(BinaryXpath),
     Tree = mochiweb_html:parse(HtmlPage),
     Data = mochiweb_xpath:execute(Xpath, Tree),
-    io:format("Tree:= ~p~n",[HtmlPage]),
-    io:format("Xpath:= ~p~n",[Xpath]),
-    io:format("Data:= ~p~n",[Data]),
-    NewMapToSend = maps:put(Key, Data, MapToSend),
+    % io:format("Tree:= ~p~n",[HtmlPage]),
+    % io:format("Xpath:= ~p~n",[Xpath]),
+    InfoToSend = extract_information_from_xpath_result(Data),
+    MapToSend = maps:put(Key, InfoToSend, RecievedMap),
     
-    extract_data_by_tags(HtmlPage, Iterator, NewMapToSend);
+    extract_data_by_tags(HtmlPage, Iterator, MapToSend);
 
 extract_data_by_tags(_, _, MapToSend) ->
     MapToSend.
+
+extract_information_from_xpath_result(XpathResult) when XpathResult =/= "" ->
+    [ItemsMap] = XpathResult,
+    {_, _, [Result]} = ItemsMap,
+    Result;
+
+extract_information_from_xpath_result(_) ->
+    "".
 
 download_web_page(Url) ->
     Method = get,

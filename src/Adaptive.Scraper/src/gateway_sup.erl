@@ -79,7 +79,28 @@ init([]) ->
         modules => [parser_queue]
     },
 
-    ChildSpecs = [ParserPoolSupervisor, CrawlerPoolSupervisor, CrawlerQueue, ParserQueue, Server],
+    Batcher = #{
+        id => batcher,
+        start => {batcher, start_link, []},
+        restart => permanent, 
+        shutdown => 2000, 
+        type => worker,
+        modules => [batcher]
+    },
+
+    Database = #{
+        id => database,
+        start => {database, start_link, []},
+        restart => permanent, 
+        shutdown => 2000, 
+        type => worker,
+        modules => [database]
+    },
+
+    ChildSpecs = [
+        ParserPoolSupervisor, CrawlerPoolSupervisor, 
+        CrawlerQueue, ParserQueue, 
+        Batcher, Server],
     {ok, {SupFlags, ChildSpecs}}.
 
 %% internal functions

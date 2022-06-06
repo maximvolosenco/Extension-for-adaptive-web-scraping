@@ -54,11 +54,11 @@ content_types_accepted(Req, State) ->
 to_json(Req, State) ->
     io:format("~p: ~p~n", ["Request:", Req]),
     Answer = "Byte",
-    {json_encode(Answer), Req, State}.
+    {useful_functions:json_encode(Answer), Req, State}.
 
 from_json(Req, State) ->
     {ok, Data, _} = cowboy_req:read_body(Req),
-    DecodedJson = json_decode(Data),
+    DecodedJson = useful_functions:json_decode(Data),
     #{
         <<"allowed_domains">> := BinaryAllowedDomains,
         <<"start_url">> := BinaryUrl,
@@ -87,9 +87,3 @@ from_json(Req, State) ->
     % Result = {true, <<"url/", Url/binary>>},
     % server:download_web_page(Url),
     {true, Req, State}.
-
-json_encode(Answer) ->
-    jsx:encode(Answer).
-
-json_decode(Data) ->
-    jsx:decode(Data).

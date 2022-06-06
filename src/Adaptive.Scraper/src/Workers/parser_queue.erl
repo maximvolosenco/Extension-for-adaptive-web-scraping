@@ -16,7 +16,7 @@ send_message(Message) ->
 
 
 handle_cast({setup_rules_parser, Tags}, {QueueOfLinks, ListChildPids}) ->
-    io:format("Message:= ~p~n",[Tags]),
+    % io:format("Message:= ~p~n",[Tags]),
     NumberOfChildren = length(ListChildPids),
     parser_pool_sup:create_children(NumberOfChildren),
     NewListChildPids = parser_pool_sup:get_all_children(),
@@ -27,7 +27,6 @@ handle_cast({setup_rules_parser, Tags}, {QueueOfLinks, ListChildPids}) ->
 
 
 handle_cast({push_link_to_queue, Links}, {QueueOfLinks, ListChildPids}) ->
-    io:format("LinksToParse:= ~p~n",[Links]),
     NewQueueOfLinks = distribute_links_to_workers(Links, ListChildPids),
     % NewQueueOfLinks = lists:append(QueueOfLinks, Links),
     

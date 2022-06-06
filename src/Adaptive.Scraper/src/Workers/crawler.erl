@@ -34,14 +34,14 @@ handle_cast({set_crawling_rules, Message}, _) ->
     {noreply, {AllowedDomains, RegexLinksToFollow, RegexLinksToParse}};
 
 handle_cast({send_link, CurrentLink}, {AllowedDomains, RegexLinksToFollow, RegexLinksToParse}) ->
-    % io:format("crawler:send_link_recieved:= ~p~n", [self()]),
+    % io:format("crawler:send_link_recieved:= ~p~n", [CurrentLink]),
     Body = download_web_page(CurrentLink),
     handle_html_body(Body, CurrentLink, AllowedDomains, RegexLinksToFollow, RegexLinksToParse),
     crawler_queue:send_message({worker_free, self()}),
     {noreply, {AllowedDomains, RegexLinksToFollow, RegexLinksToParse}};
 
 handle_cast(wait_for_link, State) ->
-    timer:sleep(100),
+    timer:sleep(1000),
     crawler_queue:send_message({worker_free, self()}),
     {noreply, State};
 
