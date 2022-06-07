@@ -8,5 +8,6 @@ namespace Adaptive.DataObjects
         public int Score { get; set; }
         [MaxLength(1000)]
         public string Description { get; set; }
+        public int UserID { get; set; }
     }
 }

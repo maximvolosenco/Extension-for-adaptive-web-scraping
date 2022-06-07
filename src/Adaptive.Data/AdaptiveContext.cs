@@ -11,7 +11,7 @@ namespace Adaptive.Data
 
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
-
+        public virtual DbSet<ScrapeOrder> ScrapeOrder { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);

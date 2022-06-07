@@ -1,6 +1,6 @@
 ﻿namespace Adaptive.WebApi.DTO
 {
-    public class SelectorInfoDTO
+    public class SelectorDataDTO
     {
         public string Email { get; set; }
         public List<string> AllowedDomains { get; set; }

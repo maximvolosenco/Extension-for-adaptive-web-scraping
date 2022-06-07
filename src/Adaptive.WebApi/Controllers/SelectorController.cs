@@ -12,40 +12,40 @@ namespace Adaptive.WebApi.Controllers
     {
         public SelectorController(IUnitOfWork database, IMapper mapper) : base(database, mapper) {}
 
-        [HttpGet]
-        public ActionResult<Temp> GetUserInfo()
-        {
-           
-
-            return new Temp { Title = "this is response from back-end :D"};
-        }
-
         [HttpPost]
-        public ActionResult<UserDTO> PostSelectorInfo([FromBody] SelectorInfoDTO scrapeInfo)
-        {            
-            User userToDb = new User
-            {
-                Email = scrapeInfo.Email,
-            };
-
-            _database.GetRepository<User>().Insert(userToDb);
-            _database.SaveChanges();
-
+        public ActionResult PostSelectorData([FromBody] SelectorDataDTO scrapeInfo)
+        {
             User user = _database.GetRepository<User>()
-                .SingleOrDefault(user => user.ID == userToDb.ID);
+                .SingleOrDefault(user => user.Email == scrapeInfo.Email);
 
             if (user == null)
-                return StatusCode(500);
+            {
+                User userToDb = new User
+                {
+                    Email = scrapeInfo.Email,
+                };
 
+                _database.GetRepository<User>().Insert(userToDb);
+                _database.SaveChanges();
+
+                user = _database.GetRepository<User>()
+                .SingleOrDefault(user => user.ID == userToDb.ID);
+
+                if (user == null)
+                    return StatusCode(500);
+            }
+
+            ScrapeOrder scrapeOrderToDb = new ScrapeOrder 
+            { 
+                UserID = user.ID 
+            };
+
+            _database.GetRepository<ScrapeOrder>().Insert(scrapeOrderToDb);
+            _database.SaveChanges();
             // call scraper service 
 
 
             return Ok();
         }
-    }
-
-    public class Temp
-    {
-        public string Title { get; set; }
     }
 }

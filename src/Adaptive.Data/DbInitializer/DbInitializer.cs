@@ -23,9 +23,9 @@ namespace Adaptive.Data.DbInitializer
                 {
                     context.Database.Migrate();
 
-#if DEBUG
-                    _developmentSeed.Seed(context);
-#endif
+//#if DEBUG
+//                    _developmentSeed.Seed(context);
+//#endif
                 }
                 catch (Exception)
                 {

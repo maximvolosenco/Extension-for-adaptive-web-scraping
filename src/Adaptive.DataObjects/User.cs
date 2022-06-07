@@ -6,5 +6,7 @@ namespace Adaptive.DataObjects
     {
         [MaxLength(250)]
         public string? Email { get; set; }
+        public ICollection<Review> Reviews { get; set; }
+        public ICollection<ScrapeOrder> ScrapeOrders { get; set; }
     }
 }
