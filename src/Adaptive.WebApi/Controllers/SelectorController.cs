@@ -13,10 +13,11 @@ namespace Adaptive.WebApi.Controllers
         public SelectorController(IUnitOfWork database, IMapper mapper) : base(database, mapper) {}
 
         [HttpGet]
-        public ActionResult<string> GetUserInfo()
+        public ActionResult<Temp> GetUserInfo()
         {
+           
 
-            return "this is response from back-end :D";
+            return new Temp { Title = "this is response from back-end :D"};
         }
 
         [HttpPost]
@@ -41,5 +42,10 @@ namespace Adaptive.WebApi.Controllers
 
             return Ok();
         }
+    }
+
+    public class Temp
+    {
+        public string Title { get; set; }
     }
 }

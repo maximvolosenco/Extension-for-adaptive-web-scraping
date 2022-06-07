@@ -19,7 +19,8 @@
                 "/js/StartTemplate.js",
                 "/js/StartTemplateModel.js",
                 "/js/TopBar.js",
-                "/js/ComponentManager.js"
+                "/js/ComponentManager.js",
+                "/js/useSelectorService.js"
             ],
             "css": [
                 "/css/picker.css",

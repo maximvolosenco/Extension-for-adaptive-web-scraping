@@ -4,9 +4,29 @@ using Adaptive.Data.Repository;
 using Adaptive.Data.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
+string? adaptiveAppOriginsName = "_adaptiveAppOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+                //.WithOrigins("http://example.com",
+                //                "http://www.contoso.com");
+        });
+    //options.AddPolicy(name: adaptiveAppOriginsName,
+    //                  policy =>
+    //                  {
+    //                      policy.WithOrigins("http://example.com",
+    //                                          "http://www.contoso.com");
+    //                  });
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -37,8 +57,10 @@ if (app.Environment.IsDevelopment())
 ActivatorUtilities.CreateInstance<DbInitializer>
     (app.Services).Initialize();
 
+//app.UseCors(adaptiveAppOriginsName);
+app.UseCors();
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
