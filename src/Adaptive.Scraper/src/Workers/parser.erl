@@ -31,10 +31,16 @@ handle_cast({send_link, CurrentLink}, {Tags, RecievedMap}) ->
     % io:format("Keys:= ~p~n",[maps:keys(Tags)]),
     TagsIterator = maps:iterator(Tags),
     MapToSend = extract_data_by_tags(Body, TagsIterator, RecievedMap),
-    batcher:send_message(MapToSend),
+    send_message_to_batcher(MapToSend, map_size(MapToSend)),
     % batcher:send_message({push_map, MapToSend}),
     % parser_queue:send_message({worker_free, self()}),
     {noreply, {Tags, MapToSend}}.
+
+send_message_to_batcher(MapToSend, MapSize) when MapSize > 0 ->
+    batcher:send_message({send_message, MapToSend});
+
+send_message_to_batcher(_, _) ->
+    ok.
 
 extract_data_by_tags(HtmlPage, TagsIterator, RecievedMap) when HtmlPage =/= error, TagsIterator =/= none ->
     {Key, BinaryXpath, Iterator} = maps:next(TagsIterator),
@@ -45,17 +51,23 @@ extract_data_by_tags(HtmlPage, TagsIterator, RecievedMap) when HtmlPage =/= erro
     % io:format("Tree:= ~p~n",[HtmlPage]),
     % io:format("Xpath:= ~p~n",[Xpath]),
     InfoToSend = extract_information_from_xpath_result(Data),
-    MapToSend = maps:put(Key, InfoToSend, RecievedMap),
-    
+    MapToSend = put_in_map(Key, InfoToSend, RecievedMap),
     extract_data_by_tags(HtmlPage, Iterator, MapToSend);
 
 extract_data_by_tags(_, _, MapToSend) ->
     MapToSend.
 
+put_in_map(_, InfoToSend, MapToSend) when InfoToSend == [] ->
+    MapToSend;
+
+put_in_map(Key, InfoToSend, RecievedMap) ->
+    maps:put(Key, InfoToSend, RecievedMap).
+
 extract_information_from_xpath_result(XpathResult) when XpathResult =/= "" ->
-    [ItemsMap] = XpathResult,
-    {_, _, [Result]} = ItemsMap,
-    Result;
+    % [ItemsMap] = XpathResult,
+    % io:format("Xpathooooooooooooooo:= ~p~n",[XpathResult]),
+    % {_, _, Result} = ItemsMap,
+    XpathResult;
 
 extract_information_from_xpath_result(_) ->
     "".

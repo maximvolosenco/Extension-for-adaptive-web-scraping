@@ -60,6 +60,7 @@ from_json(Req, State) ->
     {ok, Data, _} = cowboy_req:read_body(Req),
     DecodedJson = useful_functions:json_decode(Data),
     #{
+        <<"user_id">> := UserId,
         <<"allowed_domains">> := BinaryAllowedDomains,
         <<"start_url">> := BinaryUrl,
         <<"links_to_follow">> := BinaryLinksToFollow,
@@ -76,12 +77,15 @@ from_json(Req, State) ->
             [AllowedDomains, StartUrl, LinksToFollow, LinksToParse]
         }
     ),
+    
     parser_queue:send_message(
         {
             setup_rules_parser,
             BinaryTags
         }
     ),
+
+    batcher:send_message({set_user_id, UserId}),
     % crawler:send_message([AllowedDomains, StartUrl, LinksToFollow, LinksToParse], ),
     % As a variant return estimated time to the client because now code 204 is returned
     % Result = {true, <<"url/", Url/binary>>},
