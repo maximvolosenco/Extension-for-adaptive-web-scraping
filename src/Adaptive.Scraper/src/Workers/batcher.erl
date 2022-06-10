@@ -17,7 +17,7 @@ send_message(Message) ->
 
 
 handle_cast({send_message, RecievedMessage}, {ListOfMessages, UserId}) ->
-    io:format("Data persisted:= ~p~n",[ListOfMessages]),
+    % io:format("Data persisted:= ~p~n",[ListOfMessages]),
     AppendedListOfMessages = collect_messages(RecievedMessage, ListOfMessages),
     UpdatedListOfMessages = send_message_to_server(length(AppendedListOfMessages), 
                                     AppendedListOfMessages, UserId),
@@ -39,6 +39,23 @@ send_message_to_server(10, ListOfMessages, UserId) ->
 send_message_to_server(_, ListOfMessages, _)->
     ListOfMessages.
 
+transform_list_to_string(ListOfMessages, StringList) when length(ListOfMessages) > 1 ->
+    
+    FinalString = lists:map(fun(X) ->
+        io:format("Message:= ~p~n", [X]),
+        Json = useful_functions:json_encode(X),
+        string:concat(Json, StringList)
+    end, 
+    ListOfMessages),
+    io:format("FinalString:= ~p~n", [FinalString]),
+    % [FirstElement, LastElements] = ListOfMessages,
+    % NewStringList = string:concat(StringList, FirstElement),
+    transform_list_to_string(ListOfMessages, StringList);
+
+transform_list_to_string(ListOfMessages, StringList) ->
+    [Element] = ListOfMessages,
+    string:concat(Element, StringList).
+
 send_data_to_client(Messages, UserId) ->
     % io:format("Data sent to server:= ~p~n",[Messages]),
     Method = post,
@@ -48,13 +65,14 @@ send_data_to_client(Messages, UserId) ->
     % {\"data\":\"useful_functions:json_encode(Messages)\"}
     % BodyString = "{\"rest\":" ++ HandlerName  ++ "}",
     % Body = "{\"data\":\" huiata \"}",
+    % transform_list_to_string(Messages, ""),
     Body = useful_functions:json_encode(
         #{
-            user_id => UserId,
-            isFinalPackage => <<"false">>,
+            id => UserId,
+            isFinalPackage => false,
             data => Messages
         }),
-    % io:format("Body:= ~p~n",[Body]),
+    % io:format("Body:= ~p~n",lists:flatten(Messages)),
     HTTPOptions = [],
     Options = [],
     Response = httpc:request(Method, {Url, Header, Type, Body}, HTTPOptions, Options),
