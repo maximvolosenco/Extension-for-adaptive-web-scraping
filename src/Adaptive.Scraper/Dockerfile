@@ -1,9 +1,9 @@
 FROM erlang:latest
 
-WORKDIR /gateway
+WORKDIR /ADAPTIVE.SCRAPER
 
 COPY rebar.config ./
 
-RUN rebar3 compile
+RUN rebar3 shell
 
 EXPOSE 8080

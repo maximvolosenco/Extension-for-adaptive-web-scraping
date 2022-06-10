@@ -59,7 +59,7 @@ transform_list_to_string(ListOfMessages, StringList) ->
 send_data_to_client(Messages, UserId) ->
     % io:format("Data sent to server:= ~p~n",[Messages]),
     Method = post,
-    Url = "https://localhost:7016/ScrapedData",
+    Url = "https://localhost:44350/Scraper",
     Header = [],
     Type = "application/json",
     % {\"data\":\"useful_functions:json_encode(Messages)\"}

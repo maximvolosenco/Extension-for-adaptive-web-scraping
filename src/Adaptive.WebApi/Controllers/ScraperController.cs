@@ -16,12 +16,29 @@ namespace Adaptive.WebApi.Controllers
         [HttpPost]
         public ActionResult PostScrapedData([FromBody] ScraperDataDTO scraperData)
         {
-            if (scraperData.IsLastPackage)
+
+            if (scraperData.Data.Count > 0)
+            {
+                //List<string> keys = new List<string>();
+
+                foreach (var data in scraperData.Data)
+                {
+                    string smth = "";
+                    foreach (var item in data.Values)
+                    {
+                        smth += item + ",";
+                    }
+                    return Ok(smth);
+                }
+
+            }
+                
+            if (scraperData.IsFinalPackage)
             {
                 // create file
                 // send email
 
-                ScrapeOrder scrapeOrder = _database.GetRepository<ScrapeOrder>().SingleOrDefault(order => order.ID == scraperData.ID);
+                ScrapeOrder scrapeOrder = _database.GetRepository<ScrapeOrder>().SingleOrDefault(order => order.ID == scraperData.Id);
 
                 _database.GetRepository<ScrapeOrder>().Delete(scrapeOrder);
                 _database.SaveChanges();
