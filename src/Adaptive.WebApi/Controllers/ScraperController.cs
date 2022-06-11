@@ -19,34 +19,37 @@ namespace Adaptive.WebApi.Controllers
 
             if (scraperData.Data.Count > 0)
             {
-                //List<string> keys = new List<string>();
+                ScrapeOrder scrapeOrder = _database.GetRepository<ScrapeOrder>().SingleOrDefault(order => order.ID == scraperData.Id);
+                User user = _database.GetRepository<User>().SingleOrDefault(user => user.ID == scrapeOrder.UserID);
+                if (user == null)
+                    return NoContent();
 
-                foreach (var data in scraperData.Data)
+                ContentModel content = new ContentModel
                 {
-                    string smth = "";
-                    foreach (var item in data.Values)
-                    {
-                        smth += item + ",";
-                    }
-                    return Ok(smth);
-                }
+                    FilePath = @"C:\Users\mvolosen\Desktop\excel",
+                    Id = scraperData.Id,
+                    IsFinalPackage = scraperData.IsFinalPackage,
+                    Data = scraperData.Data,
+                    RecipientMail = user.Email
+                };
+
+                ContentManager contentManager = new ContentManager();
+
+                contentManager.CreateSendFile(content);
+                return Ok();
 
             }
                 
-            if (scraperData.IsFinalPackage)
-            {
-                // create file
-                // send email
+            //if (scraperData.IsFinalPackage)
+            //{
+            //    ScrapeOrder scrapeOrder = _database.GetRepository<ScrapeOrder>().SingleOrDefault(order => order.ID == scraperData.Id);
 
-                ScrapeOrder scrapeOrder = _database.GetRepository<ScrapeOrder>().SingleOrDefault(order => order.ID == scraperData.Id);
+            //    _database.GetRepository<ScrapeOrder>().Delete(scrapeOrder);
+            //    _database.SaveChanges();
 
-                _database.GetRepository<ScrapeOrder>().Delete(scrapeOrder);
-                _database.SaveChanges();
+            //    return Ok();
+            //}
 
-                return Ok();
-            }
-
-            // store into file 
 
             return Ok();
         }

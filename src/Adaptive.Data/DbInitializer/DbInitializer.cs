@@ -21,7 +21,7 @@ namespace Adaptive.Data.DbInitializer
                 using var context = serviceScope.ServiceProvider.GetService<AdaptiveContext>();
                 try
                 {
-                    context.Database.Migrate();
+                    context?.Database.Migrate();
 
 //#if DEBUG
 //                    _developmentSeed.Seed(context);

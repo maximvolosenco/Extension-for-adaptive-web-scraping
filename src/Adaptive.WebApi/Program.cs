@@ -4,7 +4,7 @@ using Adaptive.Data.Repository;
 using Adaptive.Data.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
-string? adaptiveAppOriginsName = "_adaptiveAppOrigins";
+//string? adaptiveAppOriginsName = "_adaptiveAppOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
