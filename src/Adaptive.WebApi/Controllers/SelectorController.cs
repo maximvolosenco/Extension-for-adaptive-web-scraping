@@ -18,13 +18,13 @@ namespace Adaptive.WebApi.Controllers
         public ActionResult PostSelectorData([FromBody] GetSelectorDataDTO scrapeInfo)
         {
             User user = _database.GetRepository<User>()
-                .SingleOrDefault(user => user.Email == scrapeInfo.Email);
+                .SingleOrDefault(user => user.Email == scrapeInfo.email);
 
             if (user == null)
             {
                 User userToDb = new User
                 {
-                    Email = scrapeInfo.Email,
+                    Email = scrapeInfo.email,
                 };
 
                 _database.GetRepository<User>().Insert(userToDb);
@@ -48,24 +48,32 @@ namespace Adaptive.WebApi.Controllers
 
             PostSelectorDataDTO dataToScraper = new PostSelectorDataDTO
             {
-                User_id = scrapeOrderToDb.ID.ToString(),
-                Allowed_domains = scrapeInfo.Allowed_domains,
-                Links_to_follow = scrapeInfo.Links_to_follow,
-                Links_to_parse = scrapeInfo.Links_to_parse,
-                Start_url = scrapeInfo.Start_url,
-                Tags = scrapeInfo.Tags
+                user_id = scrapeOrderToDb.ID.ToString(),
+                allowed_domains = scrapeInfo.allowed_domains,
+                links_to_follow = scrapeInfo.links_to_follow,
+                links_to_parse = scrapeInfo.links_to_parse,
+                start_url = scrapeInfo.start_url,
+                tags = scrapeInfo.tags
             };
 
             var client = new HttpClient();
 
             var content = new StringContent(JsonSerializer.Serialize(dataToScraper), Encoding.UTF8, "application/json");
 
-            var response = client.PostAsync("https:xyz", content).Result;
+            try
+            {
+                var response = client.PostAsync("http://localhost:8080/send_data", content);
+                Console.WriteLine(response);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
 
 
 
-            return Ok(response);
+            return Ok();
         }
     }
 }

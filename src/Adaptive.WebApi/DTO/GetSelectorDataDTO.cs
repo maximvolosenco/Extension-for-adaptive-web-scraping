@@ -2,7 +2,7 @@
 {
     public class GetSelectorDataDTO : SelectorDataDTO
     {
-        public string Email { get; set; }
+        public string email { get; set; }
 
     }
 }
