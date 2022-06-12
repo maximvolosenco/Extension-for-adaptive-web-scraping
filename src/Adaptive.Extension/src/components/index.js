@@ -66,6 +66,8 @@ function handleTemplateListeners() {
         if (element.target.classList.contains("input-field-template")) {
         StartTemplateModel.links_to_follow[element.target.id] =
             element.target.value;
+
+        // console.log(StartTemplateModel.temp_xPath)
         }
     });
 

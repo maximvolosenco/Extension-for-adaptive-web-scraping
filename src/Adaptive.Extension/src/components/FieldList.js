@@ -1,5 +1,7 @@
 import { FieldButtons } from "./FieldButtons";
 import { StartTemplateModel } from "./StartTemplateModel";
+import { StartFindXpath } from "./XpathManager";
+import { PostSelectorData } from "./useSelectorService";
 
 let fieldIndex = 0;
 const fieldList = document.createElement("div");
@@ -91,7 +93,8 @@ function ComponentField() {
   return field;
 }
 
-function handlePickButton() {
+function handlePickButton(fieldID) {
+  StartFindXpath(fieldID, "tags");
   fieldIndex += 1;
   console.log(fieldIndex);
   fieldList.appendChild(ComponentField());
@@ -123,6 +126,20 @@ function ValidateInput() {
     a[val] = key;
     return a;
   }, {});
-  console.log(tags);
+
+  delete tags[""];
+
+  let site_domain = StartTemplateModel.start_url.split('//')[1].split('/')[0];
+  let dataToSend = {
+    "email": StartTemplateModel.email,
+    "allowed_domains": site_domain,
+    "start_url": StartTemplateModel.start_url,
+    "links_to_follow" : "(page=)\\d+$",
+    "links_to_parse" : "\\d+$",
+    "tags": tags
+
+  }
+  PostSelectorData(dataToSend);
+  // console.log(tags);v
   console.log(StartTemplateModel);
 }

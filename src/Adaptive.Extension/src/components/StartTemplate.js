@@ -1,5 +1,6 @@
 import { FieldButtons } from "./FieldButtons";
 import { StartTemplateModel } from "./StartTemplateModel";
+import {   StartFindXpath } from "./XpathManager";
 
 let minPageLinksToView = 2;
 let minParseLinksToView = 3;
@@ -9,6 +10,8 @@ let minParseLinksToCount = 3;
 
 let pageLinkIndex = 1;
 let parseLinkIndex = 1;
+
+// let temporaryID = 0;
 
 const pageLinksContainer = document.createElement("div");
 const parseLinksContainer = document.createElement("div");
@@ -174,7 +177,8 @@ function handleResetSelectorButton(fieldID) {
   input.value = "";
 }
 
-function handlePickButtonPageLink() {
+function handlePickButtonPageLink(fieldID) {
+  StartFindXpath(fieldID, "links_to_follow");
   pageLinkIndex += 1;
   pageLinksContainer.appendChild(PageLinkBlock());
 }
@@ -194,7 +198,9 @@ function handleDeleteFieldButtonPageLink(fieldID) {
   pageLinksContainer.removeChild(fieldToRemove);
 }
 
-function handlePickButtonParseLink() {
+function handlePickButtonParseLink(fieldID) {
+  StartFindXpath(fieldID, "links_to_parse");
+
   parseLinkIndex += 1;
   parseLinksContainer.appendChild(ParseLinkBlock());
 }
@@ -213,6 +219,7 @@ function handleDeleteFieldButtonParseLink(fieldID) {
 }
 
 function ValidateInput() {
+  console.log(StartTemplateModel)
   const linksToFollowDict = StartTemplateModel.links_to_follow;
   let linksToFollow = [];
 
@@ -237,13 +244,19 @@ function ValidateInput() {
     linksToParse.length < 3 ||
     !StartTemplateModel.start_url
   ) {
-    console.log(linksToFollow.length < 2);
-    console.log(linksToParse.length < 3);
-    console.log(!StartTemplateModel.start_url);
-    console.log(minPageLinksToCount);
-    console.log(minParseLinksToCount);
+
+    // console.log(linksToFollow.length < 2);
+    // console.log(linksToParse.length < 3);
+    // console.log(linksToFollow.length);
+    // console.log(linksToParse.length);
+    // console.log(!StartTemplateModel.start_url);
+    // console.log(StartTemplateModel.start_url);
+
+
     return false;
   }
-
+  
+  console.log(minPageLinksToCount);
+  console.log(minParseLinksToCount);
   return true;
 }

@@ -6,7 +6,10 @@ export function FieldButtons(
 ) {
   const pickButton = document.createElement("button");
   pickButton.classList.add("pick-button", "field-name-button", "plain-button");
-  pickButton.onclick = handlePickButton;
+  pickButton.onclick = function () {
+    handlePickButton(fieldID);
+    console.log(fieldID)
+  } 
 
   const resetSelectorButton = document.createElement("button");
   resetSelectorButton.classList.add(

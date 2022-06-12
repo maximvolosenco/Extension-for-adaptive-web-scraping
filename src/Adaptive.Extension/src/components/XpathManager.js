@@ -1,3 +1,7 @@
+import { StartTemplateModel } from "./StartTemplateModel";
+
+let TemporaryID = '';
+let typeOfInput = '';
 var skip_class = ['select-tool-bar',
                   'done-select',
                   'button-div',
@@ -17,9 +21,10 @@ var css_result = ''
 //     StopFindXpath()    
 // }
 
-export function StartFindXpath(){
+export function StartFindXpath(id, inputType){
+    TemporaryID = id;
+    typeOfInput = inputType;
     selected_elements = []
-    // SideBar()
     DisableLinks()
     window.onmousemove = track_mouse
     window.onmousedown = ChooseElement
@@ -31,9 +36,9 @@ export function StopFindXpath() {
     window.onmousedown = null
     window.onmousemove = null
     EnableLinks()
-    var body = document.getElementsByTagName('body')[0]
-    var done = document.querySelector('.select-tool-bar')
-    body.removeChild(done)
+    // var body = document.getElementsByTagName('body')[0]
+    // var done = document.querySelector('.select-tool-bar')
+    // body.removeChild(done)
 }
 
 function Highlight(element, light_type){
@@ -50,13 +55,47 @@ function Highlight(element, light_type){
 }
 
 function HighlightSelected(css_selector) {
-    StopFindXpath();
-    RemoveHighlight('selected')
+
+    // console.log(TemporaryID)
+    const fieldToReset = document.getElementById(TemporaryID);
+    let input = fieldToReset.querySelector(".input-field-template");
+
+    if (typeOfInput === 'tags'){
+        input = fieldToReset.querySelector(".input-field-xpath");
+    }
+
+    delay(300).then(() => {
+        input.value = StartTemplateModel.temp_xPath + "/text()";
+
+        if (typeOfInput === 'links_to_follow'){
+            StartTemplateModel.links_to_follow[TemporaryID] = StartTemplateModel.temp_xPath + "/text()";
+        } else if (typeOfInput === 'links_to_parse') {
+            StartTemplateModel.links_to_parse[TemporaryID] = StartTemplateModel.temp_xPath + "/text()";
+        } else if (typeOfInput === 'tags') {
+            StartTemplateModel.tags[TemporaryID.replace(/^\D+/g, "")][1] = StartTemplateModel.temp_xPath + "/text()";
+        }
+        // console.log(input.id);
+    })
+    
+    // console.log(fieldToReset)
+    // console.log(StartTemplateModel.temp_xPath)
+
+    delay(300).then(() => {
+        StopFindXpath();
+        RemoveHighlight('selected')
+    } );
+
     var elements = document.querySelectorAll(css_selector)
     elements.forEach(function(element) {
         element.classList.add('seleted-element-highlight')
     })
 }
+
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+  }
+  
+//   delay(1000).then(() => console.log('ran after 1 second1 passed'));
 
 function DisableLinks() {
     var a_tags = document.getElementsByTagName('a')
@@ -131,7 +170,10 @@ function ChooseElement(event) {
         }
     }
     HighlightSelected(css_result)
-    console.log('the merged selector is :', xpath_result)
-    var input = document.querySelector('.show-select-xpath')
-    input.value = xpath_result
+    // console.log('the merged selector is :', xpath_result)
+
+    StartTemplateModel.temp_xPath = xpath_result;
+    // return xpath_result;
+    // var input = document.querySelector('.show-select-xpath')
+    // input.value = xpath_result
 }
