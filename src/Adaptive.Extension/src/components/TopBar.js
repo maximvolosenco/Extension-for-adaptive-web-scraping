@@ -45,7 +45,7 @@ export function TopBar() {
 
   featureButtons.appendChild(newTemplateButton);
   featureButtons.appendChild(showTemplateButton);
-  featureButtons.appendChild(doneButton);
+  // featureButtons.appendChild(doneButton);
 
   const closeButton = document.createElement("button");
   closeButton.classList.add("plain-button", "close-button");

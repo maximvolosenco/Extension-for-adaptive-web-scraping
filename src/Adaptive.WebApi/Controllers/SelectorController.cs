@@ -3,6 +3,8 @@ using Adaptive.DataObjects;
 using Adaptive.WebApi.DTO;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
+using System.Text.Json;
 
 namespace Adaptive.WebApi.Controllers
 {
@@ -13,7 +15,7 @@ namespace Adaptive.WebApi.Controllers
         public SelectorController(IUnitOfWork database, IMapper mapper) : base(database, mapper) {}
 
         [HttpPost]
-        public ActionResult PostSelectorData([FromBody] SelectorDataDTO scrapeInfo)
+        public ActionResult PostSelectorData([FromBody] GetSelectorDataDTO scrapeInfo)
         {
             User user = _database.GetRepository<User>()
                 .SingleOrDefault(user => user.Email == scrapeInfo.Email);
@@ -44,8 +46,26 @@ namespace Adaptive.WebApi.Controllers
             _database.SaveChanges();
             // call scraper service 
 
+            PostSelectorDataDTO dataToScraper = new PostSelectorDataDTO
+            {
+                User_id = scrapeOrderToDb.ID.ToString(),
+                Allowed_domains = scrapeInfo.Allowed_domains,
+                Links_to_follow = scrapeInfo.Links_to_follow,
+                Links_to_parse = scrapeInfo.Links_to_parse,
+                Start_url = scrapeInfo.Start_url,
+                Tags = scrapeInfo.Tags
+            };
 
-            return Ok();
+            var client = new HttpClient();
+
+            var content = new StringContent(JsonSerializer.Serialize(dataToScraper), Encoding.UTF8, "application/json");
+
+            var response = client.PostAsync("https:xyz", content).Result;
+
+
+
+
+            return Ok(response);
         }
     }
 }

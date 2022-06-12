@@ -2,11 +2,10 @@
 {
     public class SelectorDataDTO
     {
-        public string Email { get; set; }
-        public List<string> AllowedDomains { get; set; }
-        public string StartUrl { get; set; }
-        public List<string> LinksToFollow { get; set; }
-        public List<string> LinksToParse { get; set; }
+        public string Allowed_domains { get; set; }
+        public string Start_url { get; set; }
+        public string Links_to_follow { get; set; }
+        public string Links_to_parse { get; set; }
         public Dictionary<string, string> Tags { get; set; }
 
     }

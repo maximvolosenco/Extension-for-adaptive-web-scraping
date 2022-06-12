@@ -1,6 +1,6 @@
 ﻿namespace Adaptive.WebApi.DTO
 {
-    public class ScraperDataDTO
+    public class GetScraperDataDTO
     {
         public int Id { get; set; }
         public bool IsFinalPackage { get; set; }

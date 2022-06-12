@@ -50,6 +50,7 @@ function Highlight(element, light_type){
 }
 
 function HighlightSelected(css_selector) {
+    StopFindXpath();
     RemoveHighlight('selected')
     var elements = document.querySelectorAll(css_selector)
     elements.forEach(function(element) {

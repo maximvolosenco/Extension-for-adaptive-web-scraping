@@ -1,5 +1,6 @@
 import { FieldButtons } from "./FieldButtons";
 import { StartTemplateModel } from "./StartTemplateModel";
+import { StartFindXpath } from './XpathManager';
 
 let minPageLinksToView = 2;
 let minParseLinksToView = 3;
@@ -175,6 +176,7 @@ function handleResetSelectorButton(fieldID) {
 }
 
 function handlePickButtonPageLink() {
+  StartFindXpath();
   pageLinkIndex += 1;
   pageLinksContainer.appendChild(PageLinkBlock());
 }
@@ -195,6 +197,7 @@ function handleDeleteFieldButtonPageLink(fieldID) {
 }
 
 function handlePickButtonParseLink() {
+  StartFindXpath();
   parseLinkIndex += 1;
   parseLinksContainer.appendChild(ParseLinkBlock());
 }
