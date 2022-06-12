@@ -1,6 +1,5 @@
 import { FieldButtons } from "./FieldButtons";
 import { StartTemplateModel } from "./StartTemplateModel";
-import { StartFindXpath } from './XpathManager';
 
 let minPageLinksToView = 2;
 let minParseLinksToView = 3;
@@ -176,7 +175,6 @@ function handleResetSelectorButton(fieldID) {
 }
 
 function handlePickButtonPageLink() {
-  StartFindXpath();
   pageLinkIndex += 1;
   pageLinksContainer.appendChild(PageLinkBlock());
 }
@@ -197,7 +195,6 @@ function handleDeleteFieldButtonPageLink(fieldID) {
 }
 
 function handlePickButtonParseLink() {
-  StartFindXpath();
   parseLinkIndex += 1;
   parseLinksContainer.appendChild(ParseLinkBlock());
 }
@@ -216,14 +213,11 @@ function handleDeleteFieldButtonParseLink(fieldID) {
 }
 
 function ValidateInput() {
-  if (minPageLinksToCount > 0 || minParseLinksToCount > 0) {
-    return false;
-  }
   const linksToFollowDict = StartTemplateModel.links_to_follow;
   let linksToFollow = [];
 
   for (const [key, value] of Object.entries(linksToFollowDict)) {
-      console.log(key);
+    console.log(key);
     if (value) {
       linksToFollow.push(value);
     }
@@ -239,10 +233,15 @@ function ValidateInput() {
   }
 
   if (
-    linksToFollow.length <= 2 &&
-    linksToParse.length <= 3 &&
+    linksToFollow.length < 2 ||
+    linksToParse.length < 3 ||
     !StartTemplateModel.start_url
   ) {
+    console.log(linksToFollow.length < 2);
+    console.log(linksToParse.length < 3);
+    console.log(!StartTemplateModel.start_url);
+    console.log(minPageLinksToCount);
+    console.log(minParseLinksToCount);
     return false;
   }
 

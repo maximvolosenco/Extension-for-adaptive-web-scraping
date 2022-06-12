@@ -13,39 +13,9 @@ export function TopBar() {
 
   const showTemplateButton = document.createElement("button");
   showTemplateButton.classList.add("show-templates-button", "plain-button");
-  
-  // const doneButton = document.createElement("button");
-  // doneButton.classList.add("done-button", "plain-button");
-  // doneButton.onclick = function () {
-  //   // getData();
-  //   // handleResetSelectorButton(fieldID);
-
-  //   let data = {
-  //     email : "frontend@gmail.com",
-  //     allowedDomains : [
-  //       "domen1",
-  //       "domen2"
-  //     ],
-  //     startUrl : "start.com",
-  //     linksToFollow : [
-  //       "link1",
-  //       "link2"
-  //     ],
-  //     linksToParse : [
-  //       "link1",
-  //       "link2"
-  //     ],
-  //     tags : {
-  //       "ameno1" : "ameno1"
-  //     }
-  //   }
-  //   postData(data);
-  // };
-
 
   featureButtons.appendChild(newTemplateButton);
   featureButtons.appendChild(showTemplateButton);
-  // featureButtons.appendChild(doneButton);
 
   const closeButton = document.createElement("button");
   closeButton.classList.add("plain-button", "close-button");
@@ -72,4 +42,3 @@ export function TopBar() {
   topBar.appendChild(siteDomainContainer);
   return topBar;
 }
-
