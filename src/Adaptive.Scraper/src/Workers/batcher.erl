@@ -20,7 +20,7 @@ send_message(Message) ->
 handle_cast({send_message, RecievedMessage}, {ListOfMessages, UserId, Count}) ->
     % io:format("Data persisted:= ~p~n",[ListOfMessages]),
     NewCount = Count + 1,
-    io:format("Count:= ~p~n",[NewCount]),
+    % io:format("Count:= ~p~n",[NewCount]),
     AppendedListOfMessages = collect_messages(RecievedMessage, ListOfMessages),
     UpdatedListOfMessages = send_message_to_server(length(AppendedListOfMessages), 
                                         AppendedListOfMessages, UserId, NewCount),
@@ -36,13 +36,15 @@ collect_messages(Message, ListOfMessages) ->
 
 
 
-send_message_to_server(10, ListOfMessages, UserId, 40) ->
+send_message_to_server(10, ListOfMessages, UserId, 100) ->
     % database:send_message(ListOfMessages),
     send_data_to_client(ListOfMessages, UserId, true),
     [];
 
-send_message_to_server(10, ListOfMessages, UserId, Count) ->
+send_message_to_server(10, ListOfMessages, UserId, Count) when Count < 100 ->
     % database:send_message(ListOfMessages),
+    io:format("MessageNumber:= ~p~n", [Count]),
+    % io:format("List Of Message:= ~p~n", [Count]),
     
     send_data_to_client(ListOfMessages, UserId, false),
     [];
@@ -53,7 +55,7 @@ send_message_to_server(_, ListOfMessages, _, _)->
 transform_list_to_string(ListOfMessages, StringList) when length(ListOfMessages) > 1 ->
     
     FinalString = lists:map(fun(X) ->
-        io:format("Message:= ~p~n", [X]),
+        % io:format("Message:= ~p~n", [X]),
         Json = useful_functions:json_encode(X),
         string:concat(Json, StringList)
     end, 
@@ -68,7 +70,7 @@ transform_list_to_string(ListOfMessages, StringList) ->
     string:concat(Element, StringList).
 
 send_data_to_client(Messages, UserId, IsFinalPackage) ->
-    % io:format("Data sent to server:= ~p~n",[Messages]),
+    io:format("Data sent to server:= ~p~n",[Messages]),
     Method = post,
     Url = "https://localhost:7000/Scraper",
     Header = [],

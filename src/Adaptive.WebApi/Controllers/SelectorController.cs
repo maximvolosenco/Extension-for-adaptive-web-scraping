@@ -46,13 +46,24 @@ namespace Adaptive.WebApi.Controllers
             _database.SaveChanges();
             // call scraper service 
 
+            //PostSelectorDataDTO dataToScraper = new PostSelectorDataDTO
+            //{
+            //    user_id = scrapeOrderToDb.ID.ToString(),
+            //    allowed_domains = scrapeInfo.allowed_domains,
+            //    links_to_follow = scrapeInfo.links_to_follow,
+            //    links_to_parse = scrapeInfo.links_to_parse,
+            //    start_url = scrapeInfo.start_url,
+            //    tags = scrapeInfo.tags
+            //};
+
             PostSelectorDataDTO dataToScraper = new PostSelectorDataDTO
             {
                 user_id = scrapeOrderToDb.ID.ToString(),
-                allowed_domains = scrapeInfo.allowed_domains,
-                links_to_follow = scrapeInfo.links_to_follow,
-                links_to_parse = scrapeInfo.links_to_parse,
+                allowed_domains = "999.md",
+                links_to_follow = "(page=)\\d+$",
+                links_to_parse = "\\d+$",
                 start_url = scrapeInfo.start_url,
+                //start_url = "https://999.md/ru/list/transport/cars",
                 tags = scrapeInfo.tags
             };
 

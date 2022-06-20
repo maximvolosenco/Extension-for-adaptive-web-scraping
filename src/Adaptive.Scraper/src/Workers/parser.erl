@@ -63,7 +63,7 @@ put_in_map(_, InfoToSend, MapToSend) when InfoToSend == [] ->
 put_in_map(Key, InfoToSend, RecievedMap) ->
     % io:format("InfoToSend:= ~p~n",[InfoToSend]),
     [NewInfoToSend] = InfoToSend,
-    io:format("InfoToSend:= ~p~n",[NewInfoToSend]),
+    % io:format("InfoToSend:= ~p~n",[NewInfoToSend]),
     maps:put(Key, NewInfoToSend, RecievedMap).
 
 extract_information_from_xpath_result(XpathResult) when XpathResult =/= "" ->
